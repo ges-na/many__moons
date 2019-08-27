@@ -1,7 +1,7 @@
 import tweepy
 from moon_twitter import *
 from environs import Env
-import ipdb
+# import ipdb
  
 env = Env()
 env.read_env()
