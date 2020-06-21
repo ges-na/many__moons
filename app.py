@@ -18,6 +18,5 @@ api = tweepy.API(auth)
 
 status = generate_moon()
 
-# ipdb.set_trace()
 
 api.update_status(status)

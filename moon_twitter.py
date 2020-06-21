@@ -1,6 +1,9 @@
 # import ipdb
 import random
 import re
+import os
+
+abs_path = os.path.dirname(os.path.abspath(__file__))
 
 def get_list_from_file(file):
     file_list = file.read()
@@ -10,14 +13,14 @@ def get_list_from_file(file):
 
 word_lists = {}
 
-with open('aminals.txt') as file:  
+with open(f'{abs_path}/aminals.txt') as file:  
     word_lists['animal'] = get_list_from_file(file)
 
 
-with open('superlative.txt') as file:  
+with open(f'{abs_path}/superlative.txt') as file:  
     word_lists['superlative'] = get_list_from_file(file)
 
-with open ('nouns.txt') as file:
+with open (f'{abs_path}/nouns.txt') as file:
     word_lists['nouns'] = get_list_from_file(file)
 
 template_list = ['{superlative} {animal} Moon', '{superlative} {animal} {nouns} Moon', '{superlative} {nouns} Moon']
