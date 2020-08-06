@@ -1,6 +1,9 @@
+from datetime import date
+import ipdb
 import random
 import re
 import os
+from moon_phases import special_moons, moon_phases
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -15,27 +18,32 @@ word_lists = {}
 with open(f'{abs_path}/aminals.txt') as file:  
     word_lists['animal'] = get_list_from_file(file)
 
-
 with open(f'{abs_path}/superlative.txt') as file:  
     word_lists['superlative'] = get_list_from_file(file)
 
 with open (f'{abs_path}/nouns.txt') as file:
     word_lists['nouns'] = get_list_from_file(file)
 
+
 template_list = ['{superlative} {animal} Moon', '{superlative} {animal} {nouns} Moon', '{superlative} {nouns} Moon']
         
 
 class MoonName():
     def __init__(self):
-#        self.superlative = random.choice(superlative)
-#        self.animal = random.choice(animals) 
-#        self.adj = random.choice(adj)
-        self.set_template()
+        self.set_many_moons_template()
+        self.check_date()
 
     def get_name(self):
-        return self.template.format(**self.get_template_context())
+        ipdb.set_trace()
+        if self.special_moon:
+            return f'Tonight\'s moon is a {self.special_moon}! Make sure to go look!'
+        elif self.todays_moon_phase:
+            todays_moon_phase_template = self.template.format(**self.get_template_context())
+            return f'{self.todays_moon_phase} {todays_moon_phase_template}'
+        else:
+            return self.template.format(**self.get_template_context())
 
-    def set_template(self, index=False):
+    def set_many_moons_template(self, index=False):
         if index:
             self.template = template_list[index]
         else:
@@ -44,6 +52,14 @@ class MoonName():
         for kwarg in kwargs:
             if not hasattr(self, kwarg):
                 setattr(self, kwarg, self.get_random_word(kwarg)) 
+
+    def check_date(self):
+        today = date.today()
+        today_string = today.strftime('%Y-%-m-%-d')
+        self.special_moon = special_moons.get(today)            
+        #self.special_moon = 'test moon'
+        self.todays_moon_phase = moon_phases.get(today)
+        #self.todays_moon_phase = 'test'
 
     def get_random_word(self, category):
         category = ''.join([letter for letter in category if not letter.isdigit()])
@@ -55,23 +71,11 @@ class MoonName():
         for kwarg in kwargs:
             context[kwarg] = getattr(self, kwarg)
         return context
-        #return {
-            #'superlative': self.superlative,
-            #'animal': self.animal,
-            #'adj': self.adj
-        #}
 
     def get_template_kwargs(self):
         return re.findall('{(\w+)}', self.template)
 
-#        return '{superlative} {animal} {adj} moon'.format(
-#            superlative=self.superlative,
-#            animal=self.animal,
-#            adj=self.adj,
-#        )
-
 
 def generate_moon():
     moon = MoonName()
-    moon.set_template(index=1)
-    return str(moon.get_name())
+    return moon.get_name()
