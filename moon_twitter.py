@@ -1,5 +1,4 @@
 from datetime import date
-import ipdb
 import random
 import re
 import os
@@ -34,7 +33,6 @@ class MoonName():
         self.check_date()
 
     def get_name(self):
-        ipdb.set_trace()
         if self.special_moon:
             return f'Tonight\'s moon is a {self.special_moon}! Make sure to go look!'
         elif self.todays_moon_phase:
