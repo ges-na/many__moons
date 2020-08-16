@@ -51,12 +51,15 @@ class MoonName():
             if not hasattr(self, kwarg):
                 setattr(self, kwarg, self.get_random_word(kwarg)) 
 
+    def get_todays_date(self):
+        return date.today()
+
     def check_date(self):
-        today = date.today()
+        today = self.get_todays_date()
         today_string = today.strftime('%Y-%-m-%-d')
-        self.special_moon = special_moons.get(today)            
+        self.special_moon = special_moons.get(today_string) 
         #self.special_moon = 'test moon'
-        self.todays_moon_phase = moon_phases.get(today)
+        self.todays_moon_phase = moon_phases.get(today_string)
         #self.todays_moon_phase = 'test'
 
     def get_random_word(self, category):
